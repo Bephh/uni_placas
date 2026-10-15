@@ -111,3 +111,14 @@
 .cadastro-page button:hover {
   background: #207374;
 }
+
+.cadastro-erro {
+  margin: 4px 0 0;
+  color: #b3261e;
+  font-size: 14px;
+}
+
+.cadastro-page button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

@@ -1,8 +1,16 @@
+import { useEffect, useState } from 'react'
+import { onAuthStateChanged, signOut, type User } from 'firebase/auth'
+import { auth } from '../Firebase/firebase'
 import '../css/home.css'
 import Footer from '../components/footer'
 import fundo from '../Visual/video/fundo.mp4'
 
 function Home() {
+  // undefined = ainda verificando; null = deslogado; User = logado
+  const [user, setUser] = useState<User | null | undefined>(undefined)
+
+  useEffect(() => onAuthStateChanged(auth, setUser), [])
+
   return (
     <main className="home-page">
       <header className="home-header">
@@ -17,8 +25,20 @@ function Home() {
         <nav className="home-nav" aria-label="Navegação principal">
           <a href="#sobre">Sobre</a>
           <a href="#contato">Contato</a>
-          <a href="/login">Login</a>
-          <a href="/cadastro">Cadastro</a>
+          {user === null && (
+            <>
+              <a href="/login">Login</a>
+              <a href="/cadastro">Cadastro</a>
+            </>
+          )}
+          {user && (
+            <>
+              <span className="home-user">{user.displayName || user.email}</span>
+              <button type="button" className="home-logout" onClick={() => signOut(auth)}>
+                Sair
+              </button>
+            </>
+          )}
         </nav>
       </header>
 

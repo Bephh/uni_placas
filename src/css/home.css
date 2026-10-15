@@ -320,3 +320,21 @@ body:has(.home-page) {
   letter-spacing: 0;
   text-align: left;
 }
+
+.home-user {
+  color: #005152;
+  font-weight: 600;
+}
+
+.home-logout {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #207374;
+  font: inherit;
+  cursor: pointer;
+}
+
+.home-logout:hover {
+  color: #005152;
+}
