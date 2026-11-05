@@ -1,70 +1,79 @@
-import { useEffect, useState } from 'react'
-import { onAuthStateChanged, signOut, type User } from 'firebase/auth'
-import { auth } from '../Firebase/firebase'
 import '../css/home.css'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Footer from '../components/footer'
+import Navbar from '../components/navbar'
 import fundo from '../Visual/video/fundo.mp4'
+import imgConsulta from '../Visual/consulta_rapida_corrigido.png'
+import imgHistorico from '../Visual/historico_completo_corrigido.png'
+import imgArmazenamento from '../Visual/armazenamento_seguro_corrigido.png'
 
 function Home() {
-  // undefined = ainda verificando; null = deslogado; User = logado
-  const [user, setUser] = useState<User | null | undefined>(undefined)
+  const [placa, setPlaca] = useState('')
+  const [erro, setErro] = useState('')
 
-  useEffect(() => onAuthStateChanged(auth, setUser), [])
+  const navigate = useNavigate()
+
+  function handleConsultar(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    const placaFormatada = placa
+      .replace(/[^a-zA-Z0-9]/g, '')
+      .toUpperCase()
+
+    // ABC1234 (padrão antigo) ou ABC1D23 (Mercosul)
+    const placaValida = /^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(placaFormatada)
+
+    if (!placaValida) {
+      setErro('Placa inválida. Use o formato ABC-1234 ou ABC1D23.')
+      return
+    }
+
+    setErro('')
+    navigate(`/veiculo/${placaFormatada}`)
+  }
 
   return (
     <main className="home-page">
-      <header className="home-header">
-        <a className="home-brand" href="/">
-          <img
-            className="cadastro-logo"
-            src="src/visual/logo.jpeg"
-            alt="Logo UniPlacas"
-          />
-        </a>
-
-        <nav className="home-nav" aria-label="Navegação principal">
-          <a href="#sobre">Sobre</a>
-          <a href="#contato">Contato</a>
-          {user === null && (
-            <>
-              <a href="/login">Login</a>
-              <a href="/cadastro">Cadastro</a>
-            </>
-          )}
-          {user && (
-            <>
-              <span className="home-user">{user.displayName || user.email}</span>
-              <button type="button" className="home-logout" onClick={() => signOut(auth)}>
-                Sair
-              </button>
-            </>
-          )}
-        </nav>
-      </header>
+      <Navbar />
 
       <section className="home-content" aria-labelledby="home-title">
         <p className="home-eyebrow">SERVIÇOS DE UTILIDADE PÚBLICA</p>
+
         <h1 id="home-title">
           Consulte e monitore placas de veículos em segundos
         </h1>
 
-        <form
-          className="home-search"
-          onSubmit={(event) => event.preventDefault()}
-        >
+        <form className="home-search" onSubmit={handleConsultar}>
           <label className="sr-only" htmlFor="placa">
             Digite a placa do veículo
           </label>
+
           <input
             id="placa"
             name="placa"
             type="text"
             placeholder="Digite a placa do veículo"
+            value={placa}
+            onChange={(event) => {
+              setPlaca(event.target.value)
+              if (erro) setErro('')
+            }}
+            maxLength={8}
+            aria-invalid={!!erro}
+            aria-describedby={erro ? 'placa-erro' : undefined}
           />
+
           <button type="submit">Consultar</button>
         </form>
+
+        {erro && (
+          <p id="placa-erro" className="home-erro" role="alert">
+            {erro}
+          </p>
+        )}
       </section>
-      
+
       <video className="home-video" autoPlay loop muted playsInline>
         <source src={fundo} type="video/mp4" />
         Seu navegador não suporta vídeos em HTML5.
@@ -74,7 +83,7 @@ function Home() {
         <h1 id="services-title">Nossos serviços</h1>
 
         <article className="service-card">
-          <img src="src/visual/consulta_rapida_corrigido.png" alt="Consulta Rápida" />
+          <img src={imgConsulta} alt="Consulta Rápida" />
           <h2 className="consulta-rapida">Consulta Rápida</h2>
           <p className="consulta-rapida-text">
             Obtenha dados estruturados de qualquer veículo diretamente das bases
@@ -83,7 +92,7 @@ function Home() {
         </article>
 
         <article className="service-card">
-          <img src="src/visual/historico_completo_corrigido.png" alt="Histórico Completo" />
+          <img src={imgHistorico} alt="Histórico Completo" />
           <h2 className="historico-completo">Histórico Completo</h2>
           <p className="historico-completo-text">
             Monitore o histórico completo de qualquer veículo.
@@ -91,7 +100,7 @@ function Home() {
         </article>
 
         <article className="service-card">
-          <img src="src/visual/armazenamento_seguro_corrigido.png" alt="Armazenamento Seguro" />
+          <img src={imgArmazenamento} alt="Armazenamento Seguro" />
           <h2 className="storage-seguro">Armazenamento Seguro</h2>
           <p className="storage-seguro-text">
             Guarde as placas consultadas e crie um portfólio digital blindado
@@ -100,8 +109,7 @@ function Home() {
         </article>
       </section>
 
-    <Footer />
-    
+      <Footer />
     </main>
   )
 }

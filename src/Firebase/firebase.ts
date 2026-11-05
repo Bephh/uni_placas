@@ -18,4 +18,5 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+// Se o Realtime Database foi criado fora da região padrão (EUA), adicione `databaseURL` ao firebaseConfig acima.
 export const db = getDatabase(app);

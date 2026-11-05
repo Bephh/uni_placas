@@ -30,3 +30,9 @@ If you are developing a production application, we recommend enabling type-aware
 ```
 
 See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+
+## Firebase (UniPlacas)
+
+- Ative **E-mail/senha** em Authentication → Sign-in method.
+- Publique as regras de `database.rules.json` em Realtime Database → Regras (ou com `firebase deploy --only database`). Cada usuário lê e escreve apenas em `usuarios/{uid}` (dados de cadastro e histórico).
+- Se o banco foi criado fora da região padrão (EUA), adicione `databaseURL` ao `firebaseConfig` em `src/Firebase/firebase.ts`.
