@@ -1,78 +1,79 @@
 .cadastro-page {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 250px);
   box-sizing: border-box;
   text-align: left;
-}
-
-/* Mantém a navbar do cadastro no posicionamento de tela cheia usado antes. */
-.cadastro-page .home-header {
-  position: relative;
-  left: 50%;
-  width: 100vw;
-  margin-bottom: 40px;
-  padding: 0 32px;
-  justify-content: flex-start;
-  gap: 16px;
-  transform: translateX(-50%);
-}
-
-.cadastro-page .home-brand {
-  display: block;
-  flex: 0 0 150px;
-  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
 }
 
 .cadastro-content {
   width: min(100% - 32px, 480px);
-  margin: 48px auto;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 32px;
+  border: 1px solid #cce8df;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 81, 82, 0.05);
 }
 
 .cadastro-content h1 {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   color: #106263;
-  font-size: 36px;
+  font-size: 32px;
   text-align: center;
 }
 
 .cadastro-intro {
   margin: 0 0 24px;
-  color: #005152;
+  color: #547374;
   text-align: center;
+  font-size: 14px;
 }
 
 .cadastro-content form {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .cadastro-content label {
-  margin-top: 8px;
   color: #005152;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .cadastro-content input {
   box-sizing: border-box;
   width: 100%;
   min-height: 44px;
-  padding: 10px 12px;
-  border: 1px solid #2f8485;
-  border-radius: 6px;
+  padding: 10px 14px;
+  border: 1px solid #cce8df;
+  border-radius: 8px;
   background: white;
   color: #005152;
   font: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.cadastro-content input:focus {
+  border-color: #2f8485;
 }
 
 .cadastro-content button {
   min-height: 46px;
   margin-top: 16px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #005152;
   color: white;
   font: inherit;
+  font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .cadastro-content button:hover {
@@ -91,21 +92,11 @@
 }
 
 @media (max-width: 600px) {
-  .cadastro-page .home-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .cadastro-page .home-nav {
-    flex-wrap: wrap;
-    gap: 12px 18px;
-  }
-
   .cadastro-content {
-    margin-top: 32px;
+    padding: 24px 18px;
   }
 
   .cadastro-content h1 {
-    font-size: 30px;
+    font-size: 26px;
   }
 }

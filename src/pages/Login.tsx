@@ -6,6 +6,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
 
 import Navbar from '../components/navbar'
+import Footer from '../components/footer'
 import { auth } from '../Firebase/firebase'
 import { useAuth } from '../contexts/AuthContextMemoria'
 
@@ -55,8 +56,6 @@ export default function Login() {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email.trim(), senha)
 
-      // Atualiza o contexto já aqui para a rota protegida não nos mandar de volta ao /login
-      // antes do listener do Firebase responder.
       login({
         nome: user.displayName?.trim() || email.split('@')[0],
         email: user.email ?? email.trim(),
@@ -119,6 +118,7 @@ export default function Login() {
         <p>Não tem uma conta?</p>
         <Link to="/cadastro">Clique aqui</Link>
       </section>
+      <Footer />
     </>
   )
 }

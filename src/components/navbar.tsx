@@ -23,7 +23,9 @@ function Navbar() {
         {isAuthenticated ? (
           <>
             <Link to="/historico">Histórico</Link>
-            <span className="nav-user">{usuario?.nome}</span>
+            <Link to="/perfil" className="nav-user" title="Configurações do Perfil">
+              {usuario?.nome}
+            </Link>
             <button type="button" onClick={handleSair}>Sair</button>
           </>
         ) : (

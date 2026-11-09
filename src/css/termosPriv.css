@@ -71,7 +71,6 @@
   border-radius: 2px;
 }
 
-/* Ajustes para celular */
 @media (max-width: 600px) {
   .termos-container {
     width: calc(100% - 24px);

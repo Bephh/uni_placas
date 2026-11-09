@@ -21,43 +21,47 @@
   font-family: Arial, sans-serif;
 }
 
-/* LOGO */
 .home-brand {
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
   font-size: 12px;
-  font-family:system-ui, 'Segoe UI', Roboto, sans-serif;
-  color: #F4F3EC ;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: #F4F3EC;
+}
+
+.home-brand h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
 .home-nav {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 32px;
+  gap: 24px;
   margin-left: 24px;
 }
 
 .home-nav a {
-  display: flex;
-  justify-content: flex-end;
+  display: inline-flex;
+  align-items: center;
   color: #f8fafc;
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
-  padding: 20px 0;
-  transition:
-    color 0.3s ease,
-    opacity 0.3s ease;
+  position: relative;
+  padding: 8px 0;
+  transition: color 0.3s ease;
 }
 
 .home-nav a:hover {
   color: #c0cbcb;
 }
-
 
 .home-nav a::after {
   content: "";
@@ -65,8 +69,8 @@
   left: 0;
   bottom: 2px;
   width: 0;
-  height: 2px; 
-  background:#207374;
+  height: 2px;
+  background: #58d5b0;
   border-radius: 2px;
   transition: width 0.3s ease;
 }
@@ -75,13 +79,51 @@
   width: 100%;
 }
 
-.btnSair {
-  display: flex-end;
-}
-
 .nav-user {
   color: #f8fafc;
   font-size: 14px;
   font-weight: 700;
   white-space: nowrap;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.nav-user:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.home-nav button {
+  background: transparent;
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.home-nav button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .home-header {
+    padding: 0 16px;
+    height: auto;
+    min-height: 60px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .home-nav {
+    gap: 14px;
+    margin-left: 0;
+    flex-wrap: wrap;
+  }
 }

@@ -21,7 +21,6 @@ function Home() {
       .replace(/[^a-zA-Z0-9]/g, '')
       .toUpperCase()
 
-    // ABC1234 (padrão antigo) ou ABC1D23 (Mercosul)
     const placaValida = /^[A-Z]{3}[0-9][A-Z0-9][0-9]{2}$/.test(placaFormatada)
 
     if (!placaValida) {
@@ -34,83 +33,83 @@ function Home() {
   }
 
   return (
-    <main className="home-page">
+    <>
       <Navbar />
+      <main className="home-page">
+        <section className="home-content" aria-labelledby="home-title">
+          <p className="home-eyebrow">SERVIÇOS DE UTILIDADE PÚBLICA</p>
 
-      <section className="home-content" aria-labelledby="home-title">
-        <p className="home-eyebrow">SERVIÇOS DE UTILIDADE PÚBLICA</p>
+          <h1 id="home-title">
+            Consulte e monitore placas de veículos em segundos
+          </h1>
 
-        <h1 id="home-title">
-          Consulte e monitore placas de veículos em segundos
-        </h1>
+          <form className="home-search" onSubmit={handleConsultar}>
+            <label className="sr-only" htmlFor="placa">
+              Digite a placa do veículo
+            </label>
 
-        <form className="home-search" onSubmit={handleConsultar}>
-          <label className="sr-only" htmlFor="placa">
-            Digite a placa do veículo
-          </label>
+            <input
+              id="placa"
+              name="placa"
+              type="text"
+              placeholder="Digite a placa do veículo"
+              value={placa}
+              onChange={(event) => {
+                setPlaca(event.target.value)
+                if (erro) setErro('')
+              }}
+              maxLength={8}
+              aria-invalid={!!erro}
+              aria-describedby={erro ? 'placa-erro' : undefined}
+            />
 
-          <input
-            id="placa"
-            name="placa"
-            type="text"
-            placeholder="Digite a placa do veículo"
-            value={placa}
-            onChange={(event) => {
-              setPlaca(event.target.value)
-              if (erro) setErro('')
-            }}
-            maxLength={8}
-            aria-invalid={!!erro}
-            aria-describedby={erro ? 'placa-erro' : undefined}
-          />
+            <button type="submit">Consultar</button>
+          </form>
 
-          <button type="submit">Consultar</button>
-        </form>
+          {erro && (
+            <p id="placa-erro" className="home-erro" role="alert">
+              {erro}
+            </p>
+          )}
+        </section>
 
-        {erro && (
-          <p id="placa-erro" className="home-erro" role="alert">
-            {erro}
-          </p>
-        )}
-      </section>
+        <video className="home-video" autoPlay loop muted playsInline>
+          <source src={fundo} type="video/mp4" />
+          Seu navegador não suporta vídeos em HTML5.
+        </video>
 
-      <video className="home-video" autoPlay loop muted playsInline>
-        <source src={fundo} type="video/mp4" />
-        Seu navegador não suporta vídeos em HTML5.
-      </video>
+        <section className="home-services" aria-labelledby="services-title">
+          <h1 id="services-title">Nossos serviços</h1>
 
-      <section className="home-services" aria-labelledby="services-title">
-        <h1 id="services-title">Nossos serviços</h1>
+          <article className="service-card">
+            <img src={imgConsulta} alt="Consulta Rápida" />
+            <h2 className="consulta-rapida">Consulta Rápida</h2>
+            <p className="consulta-rapida-text">
+              Obtenha dados estruturados de qualquer veículo diretamente das bases
+              de dados brasileiras atualizadas.
+            </p>
+          </article>
 
-        <article className="service-card">
-          <img src={imgConsulta} alt="Consulta Rápida" />
-          <h2 className="consulta-rapida">Consulta Rápida</h2>
-          <p className="consulta-rapida-text">
-            Obtenha dados estruturados de qualquer veículo diretamente das bases
-            de dados brasileiras atualizadas.
-          </p>
-        </article>
+          <article className="service-card">
+            <img src={imgHistorico} alt="Histórico Completo" />
+            <h2 className="historico-completo">Histórico Completo</h2>
+            <p className="historico-completo-text">
+              Monitore o histórico completo de qualquer veículo.
+            </p>
+          </article>
 
-        <article className="service-card">
-          <img src={imgHistorico} alt="Histórico Completo" />
-          <h2 className="historico-completo">Histórico Completo</h2>
-          <p className="historico-completo-text">
-            Monitore o histórico completo de qualquer veículo.
-          </p>
-        </article>
-
-        <article className="service-card">
-          <img src={imgArmazenamento} alt="Armazenamento Seguro" />
-          <h2 className="storage-seguro">Armazenamento Seguro</h2>
-          <p className="storage-seguro-text">
-            Guarde as placas consultadas e crie um portfólio digital blindado
-            de histórico veicular.
-          </p>
-        </article>
-      </section>
-
+          <article className="service-card">
+            <img src={imgArmazenamento} alt="Armazenamento Seguro" />
+            <h2 className="storage-seguro">Armazenamento Seguro</h2>
+            <p className="storage-seguro-text">
+              Guarde as placas consultadas e crie um portfólio digital blindado
+              de histórico veicular.
+            </p>
+          </article>
+        </section>
+      </main>
       <Footer />
-    </main>
+    </>
   )
 }
 

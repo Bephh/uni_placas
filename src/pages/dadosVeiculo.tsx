@@ -5,7 +5,8 @@ import Footer from '../components/footer';
 import { consultarVeiculo } from '../services/veiculosService';
 import { consultarPrecoFipe, type PrecoFipe } from '../services/fipeService';
 import { salvarConsulta } from '../services/historicoService';
-import type { Veiculo } from '../types/veiculo'; // Ajuste o caminho se necessário
+import type { Veiculo } from '../types/veiculo';
+import PlanosPagamento from '../components/planosPagamento';
 import '../css/dadosVeiculos.css';
 
 export default function DadosVeiculo() {
@@ -28,42 +29,38 @@ export default function DadosVeiculo() {
       setFipe(null);
 
       try {
-        // 1. Busca os dados técnicos e infrações (mock)
         const dadosDetran = await consultarVeiculo(placaAtual);
         if (controller.signal.aborted) return;
 
         if (!dadosDetran) {
-          setErro('Veículo não encontrado ou placa inválida (Padrão Mercosul ou Antigo).');
+          setErro('Veículo não encontrado ou placa inválida.');
           return;
         }
 
         setVeiculo(dadosDetran);
-        setLoading(false); // já mostra o veículo; a FIPE carrega em seguida
+        setLoading(false);
 
-        // Registra no histórico do usuário (uma entrada por placa). Se falhar, a consulta segue normal.
         salvarConsulta({
           placa: dadosDetran.placa,
           veiculo: `${dadosDetran.marca} ${dadosDetran.modelo}`,
           data: new Date().toISOString(),
           situacao: `Licenciamento ${dadosDetran.licenciamento}`,
-        }).catch((histErr) => console.warn('Não foi possível salvar no histórico:', histErr));
+        }).catch((histErr) => console.warn('Falha ao salvar consulta no histórico:', histErr));
 
-        // 2. FIPE em try/catch ISOLADO: se a BrasilAPI cair (erro 500), não quebra a tela toda.
-        // O fipeService já tenta de novo e reaproveita o cache da sessão.
         setFipeLoading(true);
         try {
           const dadosFipe = await consultarPrecoFipe(dadosDetran.codigoFipe, dadosDetran.ano, controller.signal);
           if (!controller.signal.aborted) setFipe(dadosFipe);
         } catch (fipeErr) {
           if (controller.signal.aborted) return;
-          console.warn('Falha na BrasilAPI, ignorando preço:', fipeErr);
-          setFipe(null); // Vai exibir a mensagem "Valor FIPE indisponível"
+          console.warn('Falha na consulta FIPE:', fipeErr);
+          setFipe(null);
         } finally {
           if (!controller.signal.aborted) setFipeLoading(false);
         }
       } catch (err) {
         if (controller.signal.aborted) return;
-        console.error('Erro detalhado:', err);
+        console.error('Erro na consulta:', err);
         setErro('Ocorreu um erro ao consultar as bases de dados. Tente novamente mais tarde.');
       } finally {
         if (!controller.signal.aborted) setLoading(false);
@@ -71,8 +68,19 @@ export default function DadosVeiculo() {
     }
 
     carregarDados();
-    return () => controller.abort(); // troca de placa ou saída da tela cancela a consulta em andamento
+    return () => controller.abort();
   }, [placa]);
+
+  function handleRegularizarDebitos() {
+    setVeiculo((prev) => {
+      if (!prev) return null;
+      return {
+        ...prev,
+        licenciamento: 'Em dia',
+        multas: prev.multas.map((m) => ({ ...m, situacao: 'Paga' })),
+      };
+    });
+  }
 
   if (loading) {
     return (
@@ -116,7 +124,6 @@ export default function DadosVeiculo() {
         </header>
 
         <div className="veiculo-grid">
-          {/* Card da FIPE */}
           <section className="info-card">
             <h2>Valor de Mercado (Tabela FIPE)</h2>
             {fipe ? (
@@ -134,7 +141,6 @@ export default function DadosVeiculo() {
             )}
           </section>
 
-          {/* Card Técnico */}
           <section className="info-card">
             <h2>Dados Técnicos</h2>
             <div className="info-content">
@@ -147,11 +153,10 @@ export default function DadosVeiculo() {
           </section>
         </div>
 
-        {/* Card de Multas */}
         <section className="info-card multas-section">
           <h2>Infrações e Multas ({veiculo.multas.length})</h2>
           {veiculo.multas.length === 0 ? (
-            <p className="sem-multas">Parabéns! Não constam infrações para este veículo.</p>
+            <p className="sem-multas">Não constam infrações registradas para este veículo.</p>
           ) : (
             <div className="multas-lista">
               {veiculo.multas.map((multa, idx) => (
@@ -171,6 +176,13 @@ export default function DadosVeiculo() {
             </div>
           )}
         </section>
+
+        <PlanosPagamento
+          placa={veiculo.placa}
+          multas={veiculo.multas}
+          licenciamento={veiculo.licenciamento}
+          onPagamentoConcluido={handleRegularizarDebitos}
+        />
 
         <div className="acoes-footer">
           <Link to="/" className="btn-voltar">Nova Consulta</Link>

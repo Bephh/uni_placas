@@ -1,0 +1,346 @@
+.historico-pagina,
+.historico-pagina *,
+.historico-pagina *::before,
+.historico-pagina *::after {
+  box-sizing: border-box;
+}
+
+.historico-pagina {
+  width: min(100% - 40px, 1000px);
+  margin: 40px auto;
+  min-height: calc(100vh - 250px);
+  font-family: Arial, Helvetica, sans-serif;
+  color: #234544;
+}
+
+.historico-intro {
+  margin-bottom: 32px;
+}
+
+.historico-etiqueta {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background-color: #e0f7ef;
+  color: #005152;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.historico-titulo-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-bottom: 2px solid #cce8df;
+  padding-bottom: 16px;
+}
+
+.historico-titulo-box h1 {
+  margin: 0 0 6px;
+  color: #005152;
+  font-size: clamp(26px, 3.5vw, 34px);
+  font-weight: 700;
+}
+
+.historico-subtitulo {
+  margin: 0;
+  color: #526967;
+  font-size: 15px;
+}
+
+.historico-contador {
+  background: #f4f8f8;
+  border: 1px solid #cce8df;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #106263;
+  white-space: nowrap;
+}
+
+.historico-controles {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.historico-busca-wrapper {
+  flex: 1;
+  min-width: 260px;
+  position: relative;
+}
+
+.historico-busca-input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  border: 1px solid #cce8df;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #005152;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.historico-busca-input:focus {
+  border-color: #2f8485;
+  box-shadow: 0 0 0 3px rgba(47, 132, 133, 0.15);
+}
+
+.historico-busca-icone {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6d7d7d;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.historico-status {
+  padding: 24px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #cce8df;
+  border-radius: 12px;
+  color: #526967;
+  font-size: 15px;
+  margin: 20px 0;
+}
+
+.historico-status.alerta {
+  background: #fdf2f2;
+  border-color: #fca5a5;
+  color: #b3261e;
+}
+
+.historico-vazio {
+  text-align: center;
+  padding: 48px 24px;
+  background: #ffffff;
+  border: 1px dashed #cce8df;
+  border-radius: 14px;
+  margin: 24px 0;
+}
+
+.historico-vazio-icone {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #eef7f5;
+  color: #106263;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.historico-vazio h2 {
+  font-size: 20px;
+  color: #005152;
+  margin: 0 0 8px;
+}
+
+.historico-vazio p {
+  color: #6d7d7d;
+  font-size: 15px;
+  max-width: 440px;
+  margin: 0 auto 24px;
+  line-height: 1.5;
+}
+
+.btn-fazer-consulta {
+  display: inline-block;
+  padding: 12px 28px;
+  background: #2f8485;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.btn-fazer-consulta:hover {
+  background: #207374;
+}
+
+.historico-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.historico-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 24px;
+  background: #ffffff;
+  border: 1px solid #cce8df;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 81, 82, 0.04);
+  transition: all 0.2s ease;
+}
+
+.historico-card:hover {
+  border-color: #2f8485;
+  box-shadow: 0 6px 20px rgba(0, 81, 82, 0.08);
+  transform: translateY(-2px);
+}
+
+.historico-card-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.placa-badge {
+  display: inline-flex;
+  flex-direction: column;
+  border: 2px solid #000000;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  min-width: 104px;
+  text-align: center;
+}
+
+.placa-faixa-azul {
+  background: #003399;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.placa-texto {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: #111111;
+  padding: 3px 8px;
+}
+
+.historico-detalhes h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: #005152;
+}
+
+.historico-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: #547374;
+}
+
+.historico-data {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-situacao {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge-situacao.ok {
+  background: #e0f7ef;
+  color: #176b5b;
+}
+
+.badge-situacao.atrasado {
+  background: #fce8e8;
+  color: #b3261e;
+}
+
+.historico-acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.btn-ver-consulta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  background: #2f8485;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  transition: background 0.2s ease;
+}
+
+.btn-ver-consulta:hover {
+  background: #207374;
+}
+
+.btn-excluir-consulta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 14px;
+  background: transparent;
+  color: #b3261e;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-excluir-consulta:hover {
+  background: #fdf2f2;
+  border-color: #b3261e;
+}
+
+@media (max-width: 700px) {
+  .historico-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .historico-card-info {
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .historico-acoes {
+    width: 100%;
+    justify-content: flex-end;
+    border-top: 1px solid #eef7f5;
+    padding-top: 12px;
+    margin-top: 6px;
+  }
+}

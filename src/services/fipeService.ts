@@ -1,12 +1,10 @@
-// Integração com a BrasilAPI (gratuita): preço de veículos pela tabela FIPE.
-// Documentação: https://brasilapi.com.br/docs#tag/FIPE
 const BASE_URL = 'https://brasilapi.com.br/api/fipe/preco/v1'
 const TENTATIVAS = 3
 const TIMEOUT_MS = 10_000
 const PREFIXO_CACHE = 'fipe:'
 
 export interface PrecoFipe {
-  valor: string // ex.: "R$ 113.958,00"
+  valor: string
   marca: string
   modelo: string
   anoModelo: number
@@ -18,7 +16,6 @@ export interface PrecoFipe {
   dataConsulta: string
 }
 
-// Cache da sessão: a mesma consulta não bate de novo na BrasilAPI (que fica instável com frequência).
 function lerCache(codigoFipe: string): PrecoFipe[] | null {
   try {
     const salvo = sessionStorage.getItem(PREFIXO_CACHE + codigoFipe)
@@ -32,7 +29,7 @@ function gravarCache(codigoFipe: string, lista: PrecoFipe[]) {
   try {
     sessionStorage.setItem(PREFIXO_CACHE + codigoFipe, JSON.stringify(lista))
   } catch {
-    // storage cheio ou indisponível: segue sem cache
+    // ignore
   }
 }
 
@@ -54,8 +51,6 @@ function esperar(ms: number, signal?: AbortSignal): Promise<void> {
   })
 }
 
-// Tenta de novo (500ms, 1s...) quando a API devolve 5xx/429 ou quando há timeout/falha de rede.
-// 404 e outros 4xx são respostas definitivas e não são repetidos.
 async function buscarComRetry(url: string, signal?: AbortSignal): Promise<Response> {
   let ultimoErro: unknown = new Error('Falha ao consultar a BrasilAPI')
 
@@ -72,7 +67,7 @@ async function buscarComRetry(url: string, signal?: AbortSignal): Promise<Respon
       ultimoErro = new Error(`BrasilAPI respondeu com status ${resposta.status}`)
       if (resposta.status < 500 && resposta.status !== 429) break
     } catch (erro) {
-      if (signal?.aborted) throw erro // cancelado por quem chamou: não insiste
+      if (signal?.aborted) throw erro
       ultimoErro = erro
     }
   }
@@ -80,25 +75,32 @@ async function buscarComRetry(url: string, signal?: AbortSignal): Promise<Respon
   throw ultimoErro
 }
 
-/**
- * Consulta o preço FIPE de um veículo pelo código FIPE (ex.: "002111-3").
- * A API devolve uma lista (um item por ano-modelo/combustível); aqui
- * retornamos o item do ano pedido, ou null se não existir.
- */
 export async function consultarPrecoFipe(
   codigoFipe: string,
-  anoModelo: number,
-  signal?: AbortSignal,
+  anoDesejado?: number,
+  signal?: AbortSignal
 ): Promise<PrecoFipe | null> {
-  let lista = lerCache(codigoFipe)
+  const codigoLimpo = codigoFipe.replace(/\D/g, '')
+  if (!codigoLimpo) return null
 
-  if (!lista) {
-    const resposta = await buscarComRetry(`${BASE_URL}/${encodeURIComponent(codigoFipe)}`, signal)
-    if (resposta.status === 404) return null
+  const doCache = lerCache(codigoLimpo)
+  const lista = doCache ?? await (async () => {
+    const resposta = await buscarComRetry(`${BASE_URL}/${codigoLimpo}`, signal)
+    if (!resposta.ok) return null
+    const dados = (await resposta.json()) as PrecoFipe[]
+    if (Array.isArray(dados) && dados.length > 0) {
+      gravarCache(codigoLimpo, dados)
+      return dados
+    }
+    return null
+  })()
 
-    lista = (await resposta.json()) as PrecoFipe[]
-    gravarCache(codigoFipe, lista)
+  if (!lista || lista.length === 0) return null
+
+  if (anoDesejado) {
+    const exato = lista.find((item) => item.anoModelo === anoDesejado)
+    if (exato) return exato
   }
 
-  return lista.find((item) => item.anoModelo === anoModelo) ?? null
+  return lista[0]
 }

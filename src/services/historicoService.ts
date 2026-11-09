@@ -2,14 +2,13 @@ import { get, ref, remove, set } from 'firebase/database'
 import { auth, db } from '../Firebase/firebase'
 
 export interface Consulta {
-  id: string // igual à placa: há uma entrada por placa, atualizada a cada nova consulta
+  id: string
   placa: string
   veiculo: string
-  data: string // ISO
+  data: string
   situacao: string
 }
 
-// O histórico fica em usuarios/{uid}/historico (cada usuário só enxerga o próprio — ver database.rules.json)
 function caminhoHistorico(): string {
   const uid = auth.currentUser?.uid
   if (!uid) throw new Error('Usuário não autenticado.')
@@ -23,7 +22,7 @@ export async function listarConsultas(): Promise<Consulta[]> {
   const dados = snapshot.val() as Record<string, Omit<Consulta, 'id'>>
   return Object.entries(dados)
     .map(([id, consulta]) => ({ id, ...consulta }))
-    .sort((a, b) => b.data.localeCompare(a.data)) // mais recentes primeiro
+    .sort((a, b) => b.data.localeCompare(a.data))
 }
 
 export async function salvarConsulta(consulta: Omit<Consulta, 'id'>): Promise<void> {

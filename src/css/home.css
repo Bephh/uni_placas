@@ -4,46 +4,18 @@ body:has(.home-page) {
 
 .home-page {
   position: relative;
-  min-height: 100vh;
-  padding: 0 7vw 24px;
+  min-height: calc(100vh - 250px);
+  padding: 0 7vw 40px;
   box-sizing: border-box;
   background: #fff;
   color: #005152;
+  overflow-x: clip;
 }
-
-.home-page .home-header {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
-  margin-bottom: 40px;
-  position: relative;
-  left: 50%;
-  width: 100vw;
-  padding: 0 32px;
-  box-sizing: border-box;
-  transform: translateX(-50%);
-}
-
-.home-page .home-brand {
-  display: block;
-  flex: 0 0 150px;
-  text-decoration: none;
-}
-
-.home-page .home-brand img {
-  display: block;
-  width: 150px;
-  height: 48px;
-  object-fit: contain;
-}
-
 
 .home-content {
   width: 50%;
-  margin: 150px 0 0;
+  margin: 80px 0 0;
   text-align: left;
-  transform: translateX(-45%);
 }
 
 .home-eyebrow {
@@ -65,8 +37,8 @@ body:has(.home-page) {
 .home-content h1 {
   margin: 0;
   color: #005152;
-  font-size: clamp(36px, 6vw, 60px);
-  line-height: 1.1;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.15;
 }
 
 .home-description {
@@ -124,6 +96,7 @@ body:has(.home-page) {
 .home-search button:hover {
   background: #207374;
 }
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -136,47 +109,36 @@ body:has(.home-page) {
   border: 0;
 }
 
-/*VIDEOO*/
-
 .home-video {
   position: absolute;
-  top: 260px;
-  right: -10vw;
-  width: 70%;
-  max-width: 700px;
+  top: 60px;
+  right: -5vw;
+  width: 55%;
+  max-width: 650px;
   height: auto;
   object-fit: cover;
   z-index: 0;
 }
 
-
-@media (max-width: 600px) {
-  .home-page {
-    padding: 20px;
-  }
-
-  .home-page .home-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .home-page .home-nav {
-    flex-wrap: wrap;
-    gap: 12px 18px;
-  }
-
+@media (max-width: 900px) {
   .home-content {
     width: 100%;
-    margin-top: 100px;
+    margin-top: 40px;
   }
 
   .home-video {
     position: static;
     display: block;
     width: 100%;
-    max-width: none;
+    max-width: 500px;
     height: auto;
-    margin-top: 32px;
+    margin: 32px auto 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .home-page {
+    padding: 20px;
   }
 
   .home-search {
@@ -196,32 +158,14 @@ body:has(.home-page) {
 
 .home-erro {
   margin-top: 8px;
-  margin-left: 2rem;
+  margin-left: 1rem;
   color: #bd3c3c;
   font-size: 0.9rem;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.173);
-}
-
-
-.home-services h1{
-  color: #005152;
-  margin-top: 50px;
-  text-align: center;
-}
-.home-services h2{
-  color: #005152;
-  margin-top: 50px;
-  text-align: left;
-  transform: translateX(-50%);
 }
 
 .home-services {
-  margin-top: 50px;
-  position: relative;
-  left: 50%;
+  margin-top: 80px;
   width: 100%;
-  margin: 80px 0 0;
-  transform: translateX(-500px);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
@@ -232,77 +176,45 @@ body:has(.home-page) {
   margin: 0 0 16px;
   color: #005152;
   text-align: center;
+  font-size: 28px;
 }
 
 .service-card {
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  height: auto;
-  transform: none;
-    display: flex;
-    flex-direction: column;
-    min-height: 180px;
-    padding: 24px;
-    box-sizing: border-box;
-  }
-
-.home-services .service-card h2 {
-  margin: 0 0 16px;
-  position: static;
-  transform: none;
-  color: #005152;
-  font-size: 22px;
-  padding-left: 20px;
+  min-height: 180px;
+  padding: 24px;
+  box-sizing: border-box;
+  border: 1px solid #2f8485;
+  border-radius: 20px;
+  background: #ffffff;
 }
 
-.home-services .service-card p {
-  position: static;
-  transform: none;
-  overflow-wrap: anywhere;
+.service-card img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.service-card h2 {
+  margin: 0 0 12px;
+  color: #005152;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.service-card p {
   margin: 0;
   color: #547374;
+  font-size: 14px;
   line-height: 1.5;
+  text-align: left;
 }
 
 @media (max-width: 800px) {
   .home-services {
-    left: 0;
-    width: 100%;
-    transform: none;
     grid-template-columns: 1fr;
   }
-
-  .home-services h1 {
-    grid-column: auto;
-  }
-}
-
-.home-services .service-card {
-  border: 1px solid #2f8485;
-  border-radius: 20px;
-}
-
-.home-services .service-card h2 {
-  position: static;
-  transform: none;
-  margin: 0 0 24px;
-  color: #005152;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.4px;
-  text-align: left;
-}
-
-.home-services .service-card p {
-  position: static;
-  transform: none;
-  margin: 0;
-  color: #58596b;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0;
-  text-align: left;
 }

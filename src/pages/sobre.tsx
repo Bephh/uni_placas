@@ -1,92 +1,83 @@
-import "../css/sobre.css";
+import Navbar from '../components/navbar'
+import Footer from '../components/footer'
+import '../css/sobre.css'
 
 function Sobre() {
   return (
-    <main className="sobre-pagina">
-      <header className="sobre-introducao">
-        <span className="sobre-etiqueta">
-          Tecnologia e orientação veicular
-        </span>
+    <>
+      <Navbar />
+      <main className="sobre-pagina">
+        <header className="sobre-introducao">
+          <span className="sobre-etiqueta">
+            Tecnologia e orientação veicular
+          </span>
 
-        <h1>Sobre a UniPlacas</h1>
+          <h1>Sobre a UniPlacas</h1>
 
-        <p>Sua segurança no trânsito começa aqui.</p>
-      </header>
+          <p>Sua segurança no trânsito começa aqui.</p>
+        </header>
 
-      <section className="sobre-apresentacao">
-        <h2>Quem somos</h2>
-
-        <p>
-          A UniPlacas é um projeto acadêmico idealizado como uma
-          startup de impacto social, voltada à consulta de informações
-          veiculares e à orientação sobre débitos.
-        </p>
-
-        <p>
-          Nossa proposta é simplificar o entendimento de pendências
-          administrativas e financeiras, reunindo informações em uma
-          plataforma intuitiva e de fácil navegação.
-        </p>
-
-        <p>
-          Por meio de consultas simuladas por placa, apresentamos a
-          situação do veículo e demonstramos o direcionamento para
-          consultoria e alternativas de regularização de débitos.
-        </p>
-      </section>
-
-      <section className="sobre-cards" aria-label="Nossos princípios">
-        <article className="sobre-card">
-          <h2>Missão</h2>
+        <section className="sobre-apresentacao">
+          <h2>Quem somos</h2>
 
           <p>
-            Facilitar o acesso e a compreensão de informações
-            veiculares, oferecendo uma experiência clara e acessível
-            e demonstrando alternativas de orientação financeira
-            adequadas à realidade dos condutores.
+            A UniPlacas é um projeto acadêmico idealizado como uma
+            startup de impacto social, voltada à consulta de informações
+            veiculares e à orientação sobre débitos.
           </p>
-        </article>
-
-        <article className="sobre-card">
-          <h2>Visão</h2>
 
           <p>
-            Tornar-se referência em consultoria e facilitação de
-            serviços veiculares, com reconhecimento pela
-            transparência, inovação e responsabilidade no
-            atendimento aos condutores.
+            Nossa proposta é simplificar o entendimento de pendências
+            administrativas e financeiras, reunindo informações em uma
+            plataforma intuitiva e de fácil navegação.
           </p>
-        </article>
+        </section>
 
-        <article className="sobre-card">
-          <h2>Valores</h2>
+        <section className="sobre-valores">
+          <h2>Nossos pilares</h2>
 
-          <ul>
-            <li>Acessibilidade</li>
-            <li>Transparência</li>
-            <li>Responsabilidade</li>
-            <li>Confiança</li>
-            <li>Empatia</li>
-            <li>Praticidade</li>
-            <li>Inovação</li>
-            <li>Segurança e privacidade</li>
-          </ul>
-        </article>
-      </section>
+          <div className="sobre-cards">
+            <article className="sobre-card">
+              <h3>Transparência</h3>
+              <p>
+                Informações claras e acessíveis sobre situação veicular,
+                multas e licenciamento.
+              </p>
+            </article>
 
-      <aside className="sobre-aviso">
-        <h2>Projeto acadêmico e demonstrativo</h2>
+            <article className="sobre-card">
+              <h3>Simplicidade</h3>
+              <p>
+                Uma interface direta que elimina burocracias e
+                facilita a consulta rápida.
+              </p>
+            </article>
 
-        <p>
-          As consultas de veículos e CPFs utilizam dados fictícios.
-          As orientações e propostas de parcelamento são simulações,
-          sem realização de negociações ou pagamentos reais.
-          A plataforma não substitui consultas aos órgãos oficiais
-          de trânsito.
-        </p>
-      </aside>
-    </main>
-  );
+            <article className="sobre-card">
+              <h3>Segurança</h3>
+              <p>
+                Armazenamento protegido de dados e foco na
+                privacidade do usuário.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <aside className="sobre-aviso">
+          <h2>Projeto acadêmico e demonstrativo</h2>
+
+          <p>
+            As consultas de veículos e CPFs utilizam dados fictícios.
+            As orientações e propostas de parcelamento são simulações,
+            sem realização de negociações ou pagamentos reais.
+            A plataforma não substitui consultas aos órgãos oficiais
+            de trânsito.
+          </p>
+        </aside>
+      </main>
+      <Footer />
+    </>
+  )
 }
 
-export default Sobre;
+export default Sobre

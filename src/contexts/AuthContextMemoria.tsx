@@ -12,9 +12,7 @@ interface Usuario {
 interface AuthContextData {
   usuario: Usuario | null
   isAuthenticated: boolean
-  // true enquanto o Firebase restaura a sessão (evita mandar para /login por engano ao recarregar a página)
   carregando: boolean
-  // Define o usuário exibido (ex.: logo após login ou cadastro, sem esperar o listener do Firebase)
   login: (usuario: Usuario) => void
   logout: () => void
 }
@@ -34,10 +32,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [carregando, setCarregando] = useState(true)
 
   useEffect(() => {
-    // A fonte da verdade agora é o Firebase Auth; descarta o usuário que a versão antiga guardava aqui.
     localStorage.removeItem('usuario')
 
-    // Mantém o estado sincronizado com a sessão real: persiste ao recarregar e some ao deslogar.
     return onAuthStateChanged(auth, (user) => {
       setUsuario(user ? paraUsuario(user) : null)
       setCarregando(false)
